@@ -1,5 +1,11 @@
+
 pipeline {
     agent any
+
+    environment {
+        MINIKUBE_HOME = "/home/${env.USER}/.minikube"
+        KUBECONFIG = "/home/${env.USER}/.kube/config"
+    }
 
     stages {
 
@@ -19,14 +25,14 @@ pipeline {
 
         stage('Load Image to Minikube') {
             steps {
-                echo '📦 Minikube- Image Load ..'
-                sh 'minikube image load demo-app:latest'
+                echo '📦 Minikube-ல Image Load பண்றோம்...'
+                sh 'minikube image load demo-app:latest --profile minikube'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                echo '🚀 Kubernetes- Deploy ..'
+                echo '🚀 Kubernetes-ல Deploy பண்றோம்...'
                 sh 'kubectl apply -f k8s/deployment.yaml'
                 sh 'kubectl apply -f k8s/service.yaml'
             }

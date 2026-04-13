@@ -5,7 +5,7 @@ pipeline {
     environment {
         MINIKUBE_HOME = "/home/${env.USER}/.minikube"
         KUBECONFIG = "/home/${env.USER}/.kube/config"
-        IMAGE_TAG = "demo-app:${BUILD_NUMBER}
+        IMAGE_TAG = "demo-app:${BUILD_NUMBER}"
     }
 
     stages {

@@ -20,6 +20,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo '🐳 Docker Image Building...'
+                sh 'docker rmi demo-app:latest --force || true'
                 sh 'docker build -t demo-app:latest .'
             }
         }

@@ -25,14 +25,14 @@ pipeline {
 
         stage('Load Image to Minikube') {
             steps {
-                echo '📦 Minikube-ல Image Load பண்றோம்...'
+                echo '📦 Minikube- Image ...'
                 sh 'minikube image load demo-app:latest --profile minikube'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                echo '🚀 Kubernetes-ல Deploy பண்றோம்...'
+                echo '🚀 Kubernetes- Deploy ...'
                 sh 'kubectl apply -f k8s/deployment.yaml'
                 sh 'kubectl apply -f k8s/service.yaml'
             }
@@ -40,7 +40,7 @@ pipeline {
 
         stage('Verify Deployment') {
             steps {
-                echo '✅ Pods Running-ஆ Check பண்றோம்...'
+                echo '✅ Pods Running-...'
                 sh 'kubectl get pods'
                 sh 'kubectl get service'
             }

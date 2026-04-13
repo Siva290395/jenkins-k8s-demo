@@ -5,6 +5,7 @@ pipeline {
     environment {
         MINIKUBE_HOME = "/home/${env.USER}/.minikube"
         KUBECONFIG = "/home/${env.USER}/.kube/config"
+        IMAGE_TAG = "demo-app:${BUILD_NUMBER}
     }
 
     stages {
@@ -19,14 +20,14 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo '🐳 Docker Image Building...'
-                sh 'docker build -t demo-app:latest .'
+                sh 'docker build -t demo-app:${IMAGE_TAG} .'
             }
         }
 
         stage('Load Image to Minikube') {
             steps {
                 echo '📦 Minikube- Image ...'
-                sh 'minikube image load demo-app:latest --profile minikube'
+                sh 'minikube image load ${IMAGE_TAG} --profile minikube'
             }
         }
 
@@ -35,6 +36,7 @@ pipeline {
                 echo '🚀 Kubernetes- Deploy ...'
                 sh 'kubectl apply -f k8s/deployment.yaml'
                 sh 'kubectl apply -f k8s/service.yaml'
+                sh 'kubectl set image deployment/demo-app demo-app=${IMAGE_TAG}'
                 sh 'kubectl rollout restart deployment demo-app'
                 sh 'kubectl rollout status deployment demo-app'
             }
